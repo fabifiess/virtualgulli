@@ -1,3 +1,0 @@
-# virtualgulli
-hosted
-hola

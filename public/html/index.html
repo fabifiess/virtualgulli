@@ -1,0 +1,70 @@
+<html>
+<html lang="de">
+<head>
+    <title>Choose Sweets</title>
+    <script type="text/javascript" src="../js/jquery-1.11.1.js"></script>
+</head>
+<body>
+
+<h2> Sweet Dreams </h2>
+
+<!--Upload File-->
+<form method="post" action="/upload" enctype="multipart/form-data">
+    <input type="file" name="datei">
+    <input type="submit" name="Submit" value="Upload Image">
+</form>
+
+
+<!--Show Content-->
+
+<select id="dropdown">
+    <option>Favorite sweet</option>
+</select>
+
+<div id="info">
+    <div id="text"></div>
+    <div id="bild"></div>
+</div>
+
+<script>
+    /*
+     Upload Files
+     */
+
+    $(document).ready(function () {
+        $('#uploadForm').on("submit", function (event) {
+            event.preventDefault();
+        });
+    });
+
+
+    /*
+     Show Content
+     */
+
+    $.getJSON("../json/sweets.json", function (data) {
+        $.each(data, function (key, val) {
+            $('#dropdown').append("<option>" + val.name + "</option>");
+        });
+    });
+
+    $('#dropdown').change(function () {
+        var content = ( $(this).val() );                         // Text des gewählten Dropdownitems lesen
+        // --> SELECT name FROM sweets WHERE name=content
+        $.getJSON("../json/sweets.json", function (data) {           // JSON-Datei laden (RDBMS: FROM sweets)
+            $.each(data, function (key, val) {               // Für jeden Datensatz.. (RDBMS: Für jede Zeile)
+                if (val.name == content) {                   // Finde das JSON-Objekt (RDBMS: "Datensatz"), zu dem das angeklickte item gehört (RDBMS: WHERE name = content)
+                    $('#info').fadeOut("fast", function () {    // Blende den alten Content aus
+                        $('#text').text(val.examples);       // Wähle einen bestimmten Teil des JSON-Objektes und verarbeite es (RDBMS: SELECT examples)
+                        $("#bild").html("<img src='../img/" + val.img + "'>"); // Ebenso mit dem Dateinamen der Bilder
+                        $('#info').fadeIn("fast");           // Blende den neuen Content ein
+                    });
+                    return;
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
