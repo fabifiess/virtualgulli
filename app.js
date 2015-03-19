@@ -63,7 +63,7 @@ app.post('/upload', function (req, res) {
     });
 
     //res.redirect('/');
-    res.end("Danke fuer die Teilnahme!");
+    res.end("Danke fuer die Teilnahme! " + datensaetze);
 });
 
 
