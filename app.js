@@ -21,13 +21,13 @@ app.use(multer());
 
 
 /*
-Lege eine index.html auf den Server -> http://localhost:3000 oder http://localhost:3000/html/index.html
+Lege eine index.html auf den Server -> http://localhost:5000 oder http://localhost:5000/html/index.html
+Ergebnisse auf: http://localhost:5000/json/form.json
  */
 
 app.get('/', function (req, res) {
-    res.redirect('/html/index.html');
+    res.redirect('./html/index.html');
 });
-
 
 
 /*
@@ -55,7 +55,7 @@ app.post('/upload', function (req, res) {
     //array.push(json);
     console.log("neuer Datensatz: " + datensaetze);                    //  {"key":"value"} <- JSON-String
 
-    // JSON-Datei überschreiben
+    // form.json überschreiben
     var outputFilename = './public/json/form.json';
     fs.writeFile(outputFilename, datensaetze, function (err) {
         if (!err) console.log("JSON saved to " + outputFilename);
@@ -63,7 +63,7 @@ app.post('/upload', function (req, res) {
     });
 
     //res.redirect('/');
-    res.end("Danke fuer die Teilnahme! " + datensaetze);
+    res.end("Danke fuer die Teilnahme! ");
 });
 
 
